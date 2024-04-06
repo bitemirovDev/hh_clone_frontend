@@ -1,0 +1,25 @@
+.container {
+  width: calc(100% - 240px);
+  display: flex;
+  gap: 10px;
+  position: relative;
+}
+
+.container select {
+  width: max-content;
+}
+
+.container::after {
+  content: "на руки";
+  position: absolute;
+  width: max-content;
+  height: 20px;
+  top: 50%;
+  right: -70px;
+
+  transform: translate(0, -50%);
+}
+
+.container input:first-child {
+  width: 100%;
+}

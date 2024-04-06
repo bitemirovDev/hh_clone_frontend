@@ -1,0 +1,9 @@
+.create_resume_block {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+}
+
+.create_resume_block input {
+  flex-shrink: 1;
+}

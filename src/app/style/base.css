@@ -1,0 +1,32 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body,
+textarea,
+input,
+h1,
+h2,
+h3,
+h4,
+h5,
+label,
+span,
+p,
+div {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+  width: 100%;
+  max-width: 1250px;
+  padding: 0 20px;
+  display: block;
+  margin: 0 auto;
+}
+
+textarea {
+  resize: none;
+}

@@ -1,0 +1,48 @@
+.login_page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 20px 20px;
+  gap: 30px;
+}
+
+.login_page .card .button,
+.login_page .card .input,
+.login_page p {
+  font-size: 14px;
+}
+
+.login_page .card {
+  max-width: 480px;
+  width: 100%;
+}
+
+.login_page .form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.login_page .card > p {
+  margin-bottom: 20px;
+}
+
+.login_page .card > button {
+  width: 100%;
+}
+
+.login_page .card > .form > button {
+  width: 100%;
+}
+
+.inputs-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.buttons-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

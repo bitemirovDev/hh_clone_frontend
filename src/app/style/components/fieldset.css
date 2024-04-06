@@ -1,0 +1,38 @@
+.fieldset {
+  padding: 10px 0;
+  border: none;
+  outline: none;
+  display: flex;
+  /* justify-content: space-between; */
+}
+
+.fieldset label {
+  min-width: 240px;
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.fieldset-vsm {
+  width: 100%;
+  max-width: 350px;
+}
+
+.fieldset-sm {
+  width: 100%;
+  max-width: 500px;
+}
+
+.fieldset-md {
+  width: 100%;
+  max-width: 600px;
+}
+
+.fieldset-lg {
+  width: 100%;
+  max-width: 700px;
+}
+
+.fieldset-sm label {
+  width: 240px;
+}

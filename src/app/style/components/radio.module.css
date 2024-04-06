@@ -1,0 +1,14 @@
+.radios_container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: calc(100% - 240px);
+}
+
+.radio {
+  display: flex;
+}
+
+.radio label {
+  margin-left: 10px;
+}

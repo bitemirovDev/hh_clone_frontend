@@ -1,0 +1,51 @@
+.tag {
+  padding: 4px 6px;
+  display: flex;
+  gap: 2px;
+  width: max-content;
+  background-color: #f5ebeb;
+  border-radius: 5px;
+  position: absolute;
+  left: 240px;
+  top: 100%;
+}
+
+.tag button {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  background: transparent;
+  top: 18px;
+  right: calc(100% - 240px);
+  opacity: 0.8;
+  transition: 0.3s;
+}
+
+.tag button:hover {
+  opacity: 1;
+}
+
+.tag button img {
+  width: 100%;
+  height: 100%;
+}
+
+.tag a {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-left: 240px;
+  margin-top: 20px;
+}
+
+.tags-container .tag {
+  position: static;
+}

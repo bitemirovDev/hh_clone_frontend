@@ -1,0 +1,40 @@
+.statistics-links {
+  width: max-content;
+}
+
+.statistics-links a {
+  text-decoration: none;
+  color: #1785e5;
+  transition: 0.2s;
+  font-size: 14px;
+}
+
+.statistics-links a:not(:last-child) {
+  margin-right: 10px;
+}
+
+.statistics-links a:hover {
+  color: #000;
+}
+
+.statistics > h3 {
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.resume-pos {
+  font-weight: 700;
+  font-size: 18px;
+  color: #1785e5;
+  text-decoration: none;
+  opacity: 1;
+  transition: 0.3s;
+}
+
+.resume-pos:hover {
+  opacity: 0.8;
+}
+
+.resume > p {
+  font-size: 14px;
+}
