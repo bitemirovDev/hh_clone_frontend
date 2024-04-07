@@ -6,21 +6,22 @@ import Fieldset from "../fieldset";
 
 // react\
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function AutoCompleteSelectCity({
   label,
   size,
   cities,
   onSelect,
+  selected,
   ...props
 }) {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState({ name: "" });
   const [filteredCitites, setfilteredCitites] = useState([]);
 
   const onClick = (city) => {
     onSelect(city);
-    setValue(city.name);
+    setValue(city);
     setfilteredCitites([]);
   };
 
@@ -35,9 +36,17 @@ export default function AutoCompleteSelectCity({
     }
   };
 
+  useEffect(() => {
+    cities.map((city) => {
+      if (city.id === selected) {
+        setValue(city);
+      }
+    });
+  }, [selected, cities]);
+
   const reset = () => {
     onSelect(null);
-    setValue("");
+    setValue({ name: "" });
   };
 
   return (
@@ -47,7 +56,7 @@ export default function AutoCompleteSelectCity({
         size={size}
         {...props}
         onChange={onChange}
-        value={value}
+        value={value.name}
       />
 
       {value.length > 0 && (

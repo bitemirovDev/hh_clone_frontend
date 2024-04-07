@@ -1,37 +1,6 @@
 import { useState, useEffect } from "react";
 import styled from "styled-components";
-
-const languages = [
-  "Казахский",
-  "Английский",
-  "Французский",
-  "Немецкий",
-  "Испанский",
-  "Итальянский",
-  "Китайский",
-  "Японский",
-  "Корейский",
-  "Армянский",
-  "Русский",
-  "Таджикский",
-  "Украинский",
-  "Белорусский",
-  "Польский",
-  "Финский",
-  "Шведский",
-  "Норвежский",
-  "Датский",
-  "Голландский",
-];
-
-const levels = [
-  "A1 - Начальный",
-  "A2 - Элементарный",
-  "B1 - Средний",
-  "B2 - Выше среднего",
-  "C1 - Продвинутый",
-  "C2 - В совершенстве",
-];
+import { languages, languageLevels } from "@/app/constants/constants";
 
 const AddNewOneBtn = styled.button`
   width: max-content;
@@ -139,7 +108,7 @@ export default function LanguageSkills({ setNewResume }) {
         value={item.level}
         name={index + "-level"}
       >
-        {levels.map((option) => (
+        {languageLevels.map((option) => (
           <option key={option} value={option.split(" - ")[0]}>
             {option}
           </option>

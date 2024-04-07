@@ -1,24 +1,9 @@
 import classes from "@/app/style/components/workingHistoryCard.module.css";
 import Image from "next/image";
+import { months } from "@/app/constants/constants";
 
 // images & icons
 import TrashIcon from "@/app/images/trash_icon.svg";
-
-// months array
-const months = [
-  "Январь",
-  "Февраль",
-  "Март",
-  "Апрель",
-  "Май",
-  "Июнь",
-  "Июль",
-  "Август",
-  "Сентябрь",
-  "Октябрь",
-  "Ноябрь",
-  "Декабрь",
-];
 
 export default function WorkingHistoryCard({ workingHistory, remove }) {
   const startDate = new Date(workingHistory.start_date);

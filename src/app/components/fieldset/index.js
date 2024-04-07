@@ -3,7 +3,7 @@ export default function Fieldset({ label, size, ...props }) {
     <fieldset className={"fieldset " + size}>
       <label>{label}</label>
       {props.type === "text" && (
-        <input className="input" {...props} onChange={props.onChange}></input>
+        <input className="input" onChange={props.onChange} {...props}></input>
       )}
       {props.type === "select" && (
         <select className="input" {...props} onChange={props.onChange}>

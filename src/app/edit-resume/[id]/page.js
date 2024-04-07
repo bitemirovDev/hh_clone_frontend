@@ -14,6 +14,11 @@ import AutoCompleteSelectSkills from "@/app/components/autoCompleteSelectSkills"
 import SelectEmploymentTypes from "@/app/components/selectEmploymentTypes";
 
 import edu_classes from "@/app/style/components/education.module.css";
+import {
+  languages,
+  languageLevels,
+  educationLevels,
+} from "@/app/constants/constants";
 
 // styled-components
 import styled from "styled-components";
@@ -81,71 +86,26 @@ const StyledLangDiv = styled.div`
 
 // css
 import mi_classes from "@/app/style/components/mainInformation.module.css";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { END_POINT } from "@/config/end-point";
 import axios from "axios";
 
 import { useSelector, useDispatch } from "react-redux";
-import { createMyResume } from "@/app/store/slices/resumeSlice";
-import { useRouter } from "next/navigation";
+import { createMyResume, getResumeById } from "@/app/store/slices/resumeSlice";
+import { useRouter, useParams } from "next/navigation";
 
 const Header = dynamic(() => import("@/app/components/header/index"), {
   ssr: false,
 });
 
-// arrays
-
-const languages = [
-  "Казахский",
-  "Английский",
-  "Французский",
-  "Немецкий",
-  "Испанский",
-  "Итальянский",
-  "Китайский",
-  "Японский",
-  "Корейский",
-  "Армянский",
-  "Русский",
-  "Таджикский",
-  "Украинский",
-  "Белорусский",
-  "Польский",
-  "Финский",
-  "Шведский",
-  "Норвежский",
-  "Датский",
-  "Голландский",
-];
-
-const languageLevels = [
-  "A1 - Начальный",
-  "A2 - Элементарный",
-  "B1 - Средний",
-  "B2 - Выше среднего",
-  "C1 - Продвинутый",
-  "C2 - В совершенстве",
-];
-
-const educationLevels = [
-  "Среднее",
-  "Высшее",
-  "Неоконченное высшее",
-  "Магистратура",
-];
-
-export default function CreateResume() {
+export default function EditResume() {
   const dispatch = useDispatch();
   const router = useRouter();
-
-  // contact details
-  const [cities, setCities] = useState([]);
-  const [first_name, setFirstName] = useState("");
-  const [last_name, setLastName] = useState("");
-  const [phone, setPhone] = useState("");
-  const [city_id, setCityId] = useState("");
+  const { id } = useParams();
+  const resume = useSelector((state) => state.resume.resume);
 
   useEffect(() => {
+    dispatch(getResumeById(id));
     axios.get(`${END_POINT}/api/region/cities`).then((res) => {
       setCities(res.data);
     });
@@ -159,6 +119,44 @@ export default function CreateResume() {
       setAllEmploymentTypes(res.data);
     });
   }, []);
+
+  useEffect(() => {
+    if (resume.id) {
+      setEmploymentTypes(resume.employmentTypes.map((emps) => emps.id));
+      setFirstName(resume.first_name);
+      setLastName(resume.last_name);
+      setPhone(resume.phone);
+      setCityId(resume.city_id);
+    }
+  }, [resume]);
+
+  const [cities, setCities] = useState([]);
+  const [first_name, setFirstName] = useState("");
+  const [last_name, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
+  const [city_id, setCityId] = useState("");
+  const [countries, setCountries] = useState([]);
+  const [birthday, setBirthday] = useState("");
+  const [gender, setGender] = useState("");
+  const [citizen_ship, setCitizenShip] = useState(5);
+  const [salary, setSalary] = useState(null);
+  const [salary_type, setSalaryType] = useState("KZT");
+  const [position, setPosition] = useState("");
+  const [modal, setModal] = useState(false);
+  const [working_histories, setWorking_histories] = useState([]);
+  const [allSkills, setAllSkills] = useState([]);
+  const [skills, setSkills] = useState("");
+  const [about, setAbout] = useState("");
+  const [education, setEducations] = useState([]);
+  const [main_language, setMainLanguage] = useState("Казахский");
+  const [allEmployment_types, setAllEmploymentTypes] = useState([]);
+  const [employment_types, setEmploymentTypes] = useState([]);
+  const [foreign_languages, setForeignLanguages] = useState([
+    {
+      name: "Казахский",
+      level: "A1",
+    },
+  ]);
 
   const onSelectCity = (data) => {
     if (data === null) {
@@ -202,12 +200,6 @@ export default function CreateResume() {
     }
   }
 
-  // main information
-  const [countries, setCountries] = useState([]);
-  const [birthday, setBirthday] = useState("");
-  const [gender, setGender] = useState("");
-  const [citizen_ship, setCitizenShip] = useState(5);
-
   const onSelectCitizenShip = (data) => {
     if (data === null) {
       setCitizenShip("");
@@ -221,18 +213,6 @@ export default function CreateResume() {
     const isoStr = dateObj.toISOString();
     setBirthday(isoStr);
   };
-
-  // speciality
-  const [salary, setSalary] = useState(null);
-  const [salary_type, setSalaryType] = useState("KZT");
-  const [position, setPosition] = useState("");
-
-  // work expirience
-  const [modal, setModal] = useState(false);
-  const [working_histories, setWorking_histories] = useState([]);
-  const [allSkills, setAllSkills] = useState([]);
-  const [skills, setSkills] = useState("");
-  const [about, setAbout] = useState("");
 
   const addWorkingHistory = (item) => {
     setWorking_histories([...working_histories, item]);
@@ -250,9 +230,6 @@ export default function CreateResume() {
     setSkills(arr.join(","));
   };
 
-  // education
-  const [education, setEducations] = useState([]);
-
   const onChangeData = (e) => {
     const [index, name] = e.target.name.split("-");
     let eds = [...education];
@@ -267,66 +244,6 @@ export default function CreateResume() {
     setEducations(eds);
   };
 
-  const edusMap = education.map((item, index) => (
-    <EducationDiv key={index} className="education fieldset-md">
-      <Fieldset
-        type="select"
-        placeholder=""
-        size="fieldset-md"
-        label="Уровень"
-        options={educationLevels}
-        onChange={onChangeData}
-        value={item.level}
-        name={index + "-level"}
-        index={index}
-      />
-      <Fieldset
-        type="text"
-        placeholder="Название или аббревиатура"
-        size="fieldset-md"
-        label="Учебное заведение"
-        onChange={onChangeData}
-        value={item.university_name}
-        name={index + "-university_name"}
-      />
-      <Fieldset
-        type="text"
-        size="fieldset-md"
-        label="Факультет"
-        onChange={onChangeData}
-        value={item.faculty}
-        name={index + "-faculty"}
-      />
-      <Fieldset
-        type="text"
-        size="fieldset-md"
-        label="Специализация"
-        onChange={onChangeData}
-        value={item.major}
-        name={index + "-major"}
-      />
-
-      <StyledDiv className="fieldset-md">
-        <Fieldset
-          type="text"
-          size="fieldset-vsm"
-          label="Год окончания"
-          maxLength="4"
-          onChange={onChangeData}
-          value={item.end_date}
-          name={index + "-end_date"}
-        />
-        <p>
-          Если учитесь в настоящее время, укажите год предпологаемого окончания
-        </p>
-      </StyledDiv>
-
-      <button className={edu_classes.remove_btn} onClick={() => removeEdu()}>
-        X
-      </button>
-    </EducationDiv>
-  ));
-
   const newEducation = () => {
     setEducations([
       ...education,
@@ -339,16 +256,6 @@ export default function CreateResume() {
       },
     ]);
   };
-
-  // language skills
-  const [foreign_languages, setForeignLanguages] = useState([
-    {
-      name: "Казахский",
-      level: "A1",
-    },
-  ]);
-
-  const [main_language, setMainLanguage] = useState("Казахский");
 
   const onSelectLanguage = (e) => {
     const [index, key] = e.target.name.split("-");
@@ -366,41 +273,6 @@ export default function CreateResume() {
       },
     ]);
   };
-
-  const langsMap = foreign_languages.map((item, index) => (
-    <StyledLangDiv key={index} className="lang fieldset-lg">
-      <label>Язык</label>
-      <select
-        className="input"
-        onChange={onSelectLanguage}
-        value={item.name}
-        name={index + "-name"}
-      >
-        {languages.map((option) => (
-          <option key={option} value={option}>
-            {option}
-          </option>
-        ))}
-      </select>
-
-      <select
-        className="input"
-        onChange={onSelectLanguage}
-        value={item.level}
-        name={index + "-level"}
-      >
-        {languageLevels.map((option) => (
-          <option key={option} value={option.split(" - ")[0]}>
-            {option}
-          </option>
-        ))}
-      </select>
-    </StyledLangDiv>
-  ));
-
-  // employment types
-  const [allEmployment_types, setAllEmploymentTypes] = useState([]);
-  const [employment_types, setEmploymentTypes] = useState([]);
 
   const handleSave = () => {
     dispatch(
@@ -429,14 +301,6 @@ export default function CreateResume() {
     );
   };
 
-  const resume = useSelector((state) => state.resume.resume);
-
-  useEffect(() => {
-    if (resume.id) {
-      setEmploymentTypes(resume.employmentTypes.map((emps) => emps.id));
-    }
-  }, [resume]);
-
   return (
     <main style={{ marginBottom: "300px" }}>
       <Header />
@@ -452,12 +316,14 @@ export default function CreateResume() {
               placeholder=""
               size="fieldset-md"
               label="Имя"
+              value={first_name}
               onChange={(e) => setFirstName(e.target.value)}
             />
             <Fieldset
               type="text"
               size="fieldset-md"
               label="Фамилия"
+              value={last_name}
               onChange={(e) => setLastName(e.target.value)}
             />
             <PhoneNumberFieldset
@@ -466,7 +332,7 @@ export default function CreateResume() {
               placeholder="+9 (999) 999-99-99"
               label="Мобильный телефон"
               name="phone"
-              value={phone}
+              value={formatPhoneNumber(phone)}
               maxLength="18"
               onChange={(e) => setPhone(formatPhoneNumber(e.target.value))}
             />
@@ -476,6 +342,7 @@ export default function CreateResume() {
               placeholder="Начните вводить здесь"
               size="fieldset-md"
               label="Город проживания"
+              selected={city_id}
               onSelect={onSelectCity}
             />
           </div>
@@ -507,16 +374,6 @@ export default function CreateResume() {
               placeholder="Начните вводить здесь"
               label="Гражданство"
             />
-            {/* <Radio
-          type="radio"
-          size="fieldset-sm"
-          label="Опыт работы"
-          value1="Есть опыт работы"
-          value2="Нет опыта работы"
-          name="experience"
-          onChange={onChangeExperience}
-          classForLabel={classes.label}
-        /> */}
           </div>
         </div>
         {/* Speciality */}
@@ -600,7 +457,69 @@ export default function CreateResume() {
         <div className="create_resume_block">
           <h3>Образование</h3>
 
-          {edusMap}
+          {education.map((item, index) => (
+            <EducationDiv key={index} className="education fieldset-md">
+              <Fieldset
+                type="select"
+                placeholder=""
+                size="fieldset-md"
+                label="Уровень"
+                options={educationLevels}
+                onChange={onChangeData}
+                value={item.level}
+                name={index + "-level"}
+                index={index}
+              />
+              <Fieldset
+                type="text"
+                placeholder="Название или аббревиатура"
+                size="fieldset-md"
+                label="Учебное заведение"
+                onChange={onChangeData}
+                value={item.university_name}
+                name={index + "-university_name"}
+              />
+              <Fieldset
+                type="text"
+                size="fieldset-md"
+                label="Факультет"
+                onChange={onChangeData}
+                value={item.faculty}
+                name={index + "-faculty"}
+              />
+              <Fieldset
+                type="text"
+                size="fieldset-md"
+                label="Специализация"
+                onChange={onChangeData}
+                value={item.major}
+                name={index + "-major"}
+              />
+
+              <StyledDiv className="fieldset-md">
+                <Fieldset
+                  type="text"
+                  size="fieldset-vsm"
+                  label="Год окончания"
+                  maxLength="4"
+                  onChange={onChangeData}
+                  value={item.end_date}
+                  name={index + "-end_date"}
+                />
+                <p>
+                  Если учитесь в настоящее время, укажите год предпологаемого
+                  окончания
+                </p>
+              </StyledDiv>
+
+              <button
+                className={edu_classes.remove_btn}
+                onClick={() => removeEdu()}
+              >
+                X
+              </button>
+            </EducationDiv>
+          ))}
 
           <button className={edu_classes.add_new_edu} onClick={newEducation}>
             {education.length > 0
@@ -629,7 +548,36 @@ export default function CreateResume() {
             <select style={{ visibility: "hidden" }}></select>
           </StyledLangDiv>
 
-          {langsMap}
+          {foreign_languages.map((item, index) => (
+            <StyledLangDiv key={index} className="lang fieldset-lg">
+              <label>Язык</label>
+              <select
+                className="input"
+                onChange={onSelectLanguage}
+                value={item.name}
+                name={index + "-name"}
+              >
+                {languages.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                className="input"
+                onChange={onSelectLanguage}
+                value={item.level}
+                name={index + "-level"}
+              >
+                {languageLevels.map((option) => (
+                  <option key={option} value={option.split(" - ")[0]}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </StyledLangDiv>
+          ))}
 
           <AddNewOneBtn onClick={() => newLang()}>
             Добавить еще один язык

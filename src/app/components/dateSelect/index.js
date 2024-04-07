@@ -1,20 +1,6 @@
 import classes from "@/app/style/components/dateSelect.module.css";
 import { useState, useEffect } from "react";
-
-const months = [
-  "Январь",
-  "Февраль",
-  "Март",
-  "Апрель",
-  "Май",
-  "Июнь",
-  "Июль",
-  "Август",
-  "Сентябрь",
-  "Октябрь",
-  "Ноябрь",
-  "Декабрь",
-];
+import { months } from "@/app/constants/constants";
 
 export default function DateSelect({ label, size, onChange, ...props }) {
   const [day, setDay] = useState("");

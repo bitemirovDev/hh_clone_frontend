@@ -1,6 +1,7 @@
 "use client";
 
 import classes from "@/app/style/components/resumePage.module.css";
+import { months2, months3 } from "@/app/constants/constants";
 
 import Link from "next/link";
 import dynamic from "next/dynamic";
@@ -12,36 +13,6 @@ import { useParams } from "next/navigation";
 const Header = dynamic(() => import("@/app/components/header/index"), {
   ssr: false,
 });
-
-const months = [
-  "января",
-  "февраля",
-  "марта",
-  "апреля",
-  "мая",
-  "июня",
-  "июля",
-  "августа",
-  "сентября",
-  "октября",
-  "ноября",
-  "декабря",
-];
-
-const months2 = [
-  "январь",
-  "февраль",
-  "март",
-  "апрель",
-  "май",
-  "июнь",
-  "июль",
-  "август",
-  "сентябрь",
-  "октябрь",
-  "ноябрь",
-  "декабрь",
-];
 
 export default function ResumePage() {
   const dispatch = useDispatch();
@@ -109,7 +80,7 @@ export default function ResumePage() {
           </h2>
           <p>
             {resume.gender}, {formattedAge} лет, родился {birthday.getDate()}{" "}
-            {months[birthday.getMonth()]} {birthday.getFullYear()} года
+            {months3[birthday.getMonth()]} {birthday.getFullYear()} года
           </p>
         </div>
         <div className={classes.block}>

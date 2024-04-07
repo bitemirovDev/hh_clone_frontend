@@ -14,6 +14,11 @@ import AutoCompleteSelectSkills from "@/app/components/autoCompleteSelectSkills"
 import SelectEmploymentTypes from "@/app/components/selectEmploymentTypes";
 
 import edu_classes from "@/app/style/components/education.module.css";
+import {
+  languages,
+  languageLevels,
+  educationLevels,
+} from "@/app/constants/constants";
 
 // styled-components
 import styled from "styled-components";
@@ -92,47 +97,6 @@ import { useRouter } from "next/navigation";
 const Header = dynamic(() => import("../components/header/index"), {
   ssr: false,
 });
-
-// arrays
-
-const languages = [
-  "Казахский",
-  "Английский",
-  "Французский",
-  "Немецкий",
-  "Испанский",
-  "Итальянский",
-  "Китайский",
-  "Японский",
-  "Корейский",
-  "Армянский",
-  "Русский",
-  "Таджикский",
-  "Украинский",
-  "Белорусский",
-  "Польский",
-  "Финский",
-  "Шведский",
-  "Норвежский",
-  "Датский",
-  "Голландский",
-];
-
-const languageLevels = [
-  "A1 - Начальный",
-  "A2 - Элементарный",
-  "B1 - Средний",
-  "B2 - Выше среднего",
-  "C1 - Продвинутый",
-  "C2 - В совершенстве",
-];
-
-const educationLevels = [
-  "Среднее",
-  "Высшее",
-  "Неоконченное высшее",
-  "Магистратура",
-];
 
 export default function CreateResume() {
   const dispatch = useDispatch();
