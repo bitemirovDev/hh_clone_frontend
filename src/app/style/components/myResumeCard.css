@@ -38,3 +38,7 @@
 .resume > p {
   font-size: 14px;
 }
+
+.resume {
+  position: relative;
+}

@@ -6,21 +6,22 @@ import Fieldset from "../fieldset";
 
 // react\
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function AutoCompleteSelectCountries({
   label,
   size,
   countries,
+  selected,
   onSelect,
   ...props
 }) {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState({ name: "" });
   const [filteredCountries, setfilteredCountries] = useState([]);
 
   const onClick = (country) => {
     onSelect(country);
-    setValue(country.name);
+    setValue(country);
     setfilteredCountries([]);
   };
 
@@ -36,18 +37,28 @@ export default function AutoCompleteSelectCountries({
 
   const reset = () => {
     onSelect(null);
-    setValue("");
+    setValue({ name: "" });
   };
 
   const onInputBlur = (e) => {
     e.target.value = "";
   };
 
+  useEffect(() => {
+    countries.map((country) => {
+      if (country.id === selected) {
+        setValue(country);
+      }
+    });
+  }, [selected, countries]);
+
   return (
     <div
       className={"auto_complete_select " + size}
       style={
-        value.length > 0 ? { marginBottom: "50px" } : { marginBottom: "0" }
+        value && value.name.length > 0
+          ? { marginBottom: "50px" }
+          : { marginBottom: "0" }
       }
     >
       <Fieldset
@@ -58,9 +69,9 @@ export default function AutoCompleteSelectCountries({
         onBlur={onInputBlur}
       />
 
-      {value.length > 0 && (
+      {value && value.name.length > 0 && (
         <div className="tag">
-          <a>{value}</a>
+          <a>{value.name}</a>
           <button onClick={reset}>
             <Image src={TrashIcon} alt="trash_icon"></Image>
           </button>

@@ -2,7 +2,7 @@ import classes from "@/app/style/components/dateSelect.module.css";
 import { useState, useEffect } from "react";
 import { months } from "@/app/constants/constants";
 
-export default function DateSelect({ label, size, onChange, ...props }) {
+export default function DateSelect({ label, size, onChange, value }) {
   const [day, setDay] = useState("");
   const [month, setMonth] = useState(0);
   const [year, setYear] = useState("");
@@ -14,6 +14,15 @@ export default function DateSelect({ label, size, onChange, ...props }) {
     date.setDate(day);
     onChange(date);
   }, [day, month, year]);
+
+  useEffect(() => {
+    if (value) {
+      const date = new Date(value);
+      setDay(date.getDate());
+      setMonth(date.getMonth());
+      setYear(date.getFullYear());
+    }
+  }, [value]);
 
   return (
     <fieldset className={"fieldset " + size}>

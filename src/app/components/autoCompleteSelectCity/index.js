@@ -59,7 +59,7 @@ export default function AutoCompleteSelectCity({
         value={value.name}
       />
 
-      {value.length > 0 && (
+      {value && (
         <button className="reset_btn" onClick={reset}>
           <Image src={TrashIcon} alt="trash-icon" />
         </button>

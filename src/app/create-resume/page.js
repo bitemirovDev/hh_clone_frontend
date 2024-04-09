@@ -14,6 +14,7 @@ import AutoCompleteSelectSkills from "@/app/components/autoCompleteSelectSkills"
 import SelectEmploymentTypes from "@/app/components/selectEmploymentTypes";
 
 import edu_classes from "@/app/style/components/education.module.css";
+import radio_classes from "@/app/style/components/radio.module.css";
 import {
   languages,
   languageLevels,
@@ -445,16 +446,33 @@ export default function CreateResume() {
               label="Дата рождения"
               onChange={onChangeBirthday}
             />
-            <Radio
-              type="radio"
-              size="fieldset-sm"
-              label="Пол"
-              value1="Мужской"
-              value2="Женский"
-              name="gender"
-              onChange={(e) => setGender(e.target.value)}
-              classForLabel={mi_classes.label}
-            />
+            <fieldset className="fieldset fieldset-sm">
+              <label className={mi_classes.label}>Пол</label>
+              <div className={radio_classes.radios_container}>
+                <div className={radio_classes.radio}>
+                  <input
+                    className="input"
+                    type="radio"
+                    name="gender"
+                    id="g_male"
+                    value={"Мужской"}
+                    onChange={(e) => setGender(e.target.value)}
+                  ></input>
+                  <label htmlFor="g_male">Мужской</label>
+                </div>
+                <div className={radio_classes.radio}>
+                  <input
+                    className="input"
+                    type="radio"
+                    name="gender"
+                    id="g_female"
+                    value={"Женский"}
+                    onChange={(e) => setGender(e.target.value)}
+                  ></input>
+                  <label htmlFor="g_female">Женский</label>
+                </div>
+              </div>
+            </fieldset>
             <AutoCompleteSelectCountries
               type="text"
               countries={countries}
@@ -463,16 +481,6 @@ export default function CreateResume() {
               placeholder="Начните вводить здесь"
               label="Гражданство"
             />
-            {/* <Radio
-          type="radio"
-          size="fieldset-sm"
-          label="Опыт работы"
-          value1="Есть опыт работы"
-          value2="Нет опыта работы"
-          name="experience"
-          onChange={onChangeExperience}
-          classForLabel={classes.label}
-        /> */}
           </div>
         </div>
         {/* Speciality */}

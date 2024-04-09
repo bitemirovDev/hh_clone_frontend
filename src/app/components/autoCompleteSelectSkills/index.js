@@ -12,6 +12,7 @@ export default function AutoCompleteSelectSkills({
   label,
   size,
   skills,
+  selected,
   onSelect,
   ...props
 }) {
@@ -53,9 +54,11 @@ export default function AutoCompleteSelectSkills({
     selectedSkills.splice(index, 1);
     setValues(selectedSkills);
     setFilteredSkills([...filteredSkills, item]);
-  };
 
-  const onInputBlur = (e) => {};
+    if (selectedSkills.length < 1) {
+      setFilteredSkills([]);
+    }
+  };
 
   useEffect(() => {
     let fs = [];
@@ -75,12 +78,22 @@ export default function AutoCompleteSelectSkills({
     onSelect(values);
   }, [values]);
 
+  useEffect(() => {
+    if (JSON.stringify(values) !== JSON.stringify(selected)) {
+      selected.map((sld) => {
+        if (sld.name !== "") {
+          setValues(selected);
+        }
+      });
+    }
+  }, [selected]);
+
   return (
     <div className={"auto_complete_select " + size}>
       {values.length > 0 && (
         <div className="tags-container">
           {values.map((skill) => (
-            <div key={skill.id} className="tag">
+            <div key={skill.id} className={"tag"}>
               <a>{skill.name}</a>
               <button onClick={() => remove(skill)}>
                 <Image src={TrashIcon} alt="trash_icon"></Image>
@@ -101,13 +114,7 @@ export default function AutoCompleteSelectSkills({
         </div>
       )}
 
-      <Fieldset
-        label={label}
-        size={size}
-        {...props}
-        onChange={onChange}
-        onBlur={onInputBlur}
-      />
+      <Fieldset label={label} size={size} {...props} onChange={onChange} />
     </div>
   );
 }

@@ -14,6 +14,8 @@ import AutoCompleteSelectSkills from "@/app/components/autoCompleteSelectSkills"
 import SelectEmploymentTypes from "@/app/components/selectEmploymentTypes";
 
 import edu_classes from "@/app/style/components/education.module.css";
+import radio_classes from "@/app/style/components/radio.module.css";
+import salary_classes from "@/app/style/components/inputWithSelect.module.css";
 import {
   languages,
   languageLevels,
@@ -86,12 +88,12 @@ const StyledLangDiv = styled.div`
 
 // css
 import mi_classes from "@/app/style/components/mainInformation.module.css";
-import { use, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { END_POINT } from "@/config/end-point";
 import axios from "axios";
 
 import { useSelector, useDispatch } from "react-redux";
-import { createMyResume, getResumeById } from "@/app/store/slices/resumeSlice";
+import { editMyResume, getResumeById } from "@/app/store/slices/resumeSlice";
 import { useRouter, useParams } from "next/navigation";
 
 const Header = dynamic(() => import("@/app/components/header/index"), {
@@ -122,11 +124,23 @@ export default function EditResume() {
 
   useEffect(() => {
     if (resume.id) {
-      setEmploymentTypes(resume.employmentTypes.map((emps) => emps.id));
       setFirstName(resume.first_name);
       setLastName(resume.last_name);
       setPhone(resume.phone);
       setCityId(resume.city_id);
+      setBirthday(resume.birthday);
+      setGender(resume.gender);
+      setCitizenShip(resume.citizen_ship);
+      setPosition(resume.position);
+      setSalary(resume.salary);
+      setSalaryType(resume.salary_type);
+      setWorking_histories(resume.workingHistories);
+      setAbout(resume.about);
+      setSkills(resume.skills);
+      setEducations(resume.education);
+      setMainLanguage(resume.main_language);
+      setForeignLanguages(resume.foreignLanguages);
+      setEmploymentTypes(resume.employmentTypes.map((emps) => emps.id));
     }
   }, [resume]);
 
@@ -138,7 +152,7 @@ export default function EditResume() {
   const [countries, setCountries] = useState([]);
   const [birthday, setBirthday] = useState("");
   const [gender, setGender] = useState("");
-  const [citizen_ship, setCitizenShip] = useState(5);
+  const [citizen_ship, setCitizenShip] = useState(null);
   const [salary, setSalary] = useState(null);
   const [salary_type, setSalaryType] = useState("KZT");
   const [position, setPosition] = useState("");
@@ -148,15 +162,14 @@ export default function EditResume() {
   const [skills, setSkills] = useState("");
   const [about, setAbout] = useState("");
   const [education, setEducations] = useState([]);
-  const [main_language, setMainLanguage] = useState("Казахский");
+  const [main_language, setMainLanguage] = useState("");
   const [allEmployment_types, setAllEmploymentTypes] = useState([]);
   const [employment_types, setEmploymentTypes] = useState([]);
-  const [foreign_languages, setForeignLanguages] = useState([
-    {
-      name: "Казахский",
-      level: "A1",
-    },
-  ]);
+  const [foreign_languages, setForeignLanguages] = useState([]);
+
+  const handleGenderChange = (e) => {
+    setGender(e.target.value);
+  };
 
   const onSelectCity = (data) => {
     if (data === null) {
@@ -166,43 +179,9 @@ export default function EditResume() {
     }
   };
 
-  function formatPhoneNumber(value) {
-    const phoneNumber = value.replace(/[^\d]/g, "");
-
-    if (phoneNumber.length <= 1) {
-      return "+" + phoneNumber;
-    } else if (phoneNumber.length <= 4) {
-      return (
-        "+" + phoneNumber.substring(0, 1) + " (" + phoneNumber.substring(1)
-      );
-    } else if (phoneNumber.length <= 7) {
-      return (
-        "+" +
-        phoneNumber.substring(0, 1) +
-        " (" +
-        phoneNumber.substring(1, 4) +
-        ") " +
-        phoneNumber.substring(4)
-      );
-    } else if (phoneNumber.length <= 11) {
-      return (
-        "+" +
-        phoneNumber.substring(0, 1) +
-        " (" +
-        phoneNumber.substring(1, 4) +
-        ") " +
-        phoneNumber.substring(4, 7) +
-        "-" +
-        phoneNumber.substring(7, 9) +
-        "-" +
-        phoneNumber.substring(9)
-      );
-    }
-  }
-
   const onSelectCitizenShip = (data) => {
     if (data === null) {
-      setCitizenShip("");
+      setCitizenShip(null);
     } else {
       setCitizenShip(data.id);
     }
@@ -274,10 +253,45 @@ export default function EditResume() {
     ]);
   };
 
+  function formatPhoneNumber(value) {
+    const phoneNumber = value.replace(/[^\d]/g, "");
+
+    if (phoneNumber.length <= 1) {
+      return "+" + phoneNumber;
+    } else if (phoneNumber.length <= 4) {
+      return (
+        "+" + phoneNumber.substring(0, 1) + " (" + phoneNumber.substring(1)
+      );
+    } else if (phoneNumber.length <= 7) {
+      return (
+        "+" +
+        phoneNumber.substring(0, 1) +
+        " (" +
+        phoneNumber.substring(1, 4) +
+        ") " +
+        phoneNumber.substring(4)
+      );
+    } else if (phoneNumber.length <= 11) {
+      return (
+        "+" +
+        phoneNumber.substring(0, 1) +
+        " (" +
+        phoneNumber.substring(1, 4) +
+        ") " +
+        phoneNumber.substring(4, 7) +
+        "-" +
+        phoneNumber.substring(7, 9) +
+        "-" +
+        phoneNumber.substring(9)
+      );
+    }
+  }
+
   const handleSave = () => {
     dispatch(
-      createMyResume(
+      editMyResume(
         {
+          id: resume.id,
           first_name,
           last_name,
           phone,
@@ -300,6 +314,8 @@ export default function EditResume() {
       )
     );
   };
+
+  console.log(resume);
 
   return (
     <main style={{ marginBottom: "300px" }}>
@@ -354,22 +370,43 @@ export default function EditResume() {
             <DateSelect
               size="fieldset-sm"
               label="Дата рождения"
+              value={birthday}
               onChange={onChangeBirthday}
             />
-            <Radio
-              type="radio"
-              size="fieldset-sm"
-              label="Пол"
-              value1="Мужской"
-              value2="Женский"
-              name="gender"
-              onChange={(e) => setGender(e.target.value)}
-              classForLabel={mi_classes.label}
-            />
+            <fieldset className="fieldset fieldset-sm">
+              <label className={mi_classes.label}>Пол</label>
+              <div className={radio_classes.radios_container}>
+                <div className={radio_classes.radio}>
+                  <input
+                    className="input"
+                    type="radio"
+                    name="gender"
+                    id="g_male"
+                    value={"Мужской"}
+                    onChange={handleGenderChange}
+                    checked={gender === "Мужской"}
+                  ></input>
+                  <label htmlFor="g_male">Мужской</label>
+                </div>
+                <div className={radio_classes.radio}>
+                  <input
+                    className="input"
+                    type="radio"
+                    name="gender"
+                    id="g_female"
+                    value={"Женский"}
+                    onChange={handleGenderChange}
+                    checked={gender === "Женский"}
+                  ></input>
+                  <label htmlFor="g_female">Женский</label>
+                </div>
+              </div>
+            </fieldset>
             <AutoCompleteSelectCountries
               type="text"
               countries={countries}
               onSelect={onSelectCitizenShip}
+              selected={citizen_ship}
               size="fieldset-md"
               placeholder="Начните вводить здесь"
               label="Гражданство"
@@ -387,12 +424,35 @@ export default function EditResume() {
               value={position}
               onChange={(e) => setPosition(e.target.value)}
             />
-            <InputWithSelect
-              size="fieldset-sm"
-              label="Зарплата"
-              setSalary={setSalary}
-              setSalaryType={setSalaryType}
-            />
+
+            <fieldset className="fieldset fieldset-sm">
+              <label>Зарплата</label>
+              <div className={salary_classes.container}>
+                <input
+                  className="input"
+                  value={salary}
+                  onChange={(e) => setSalary(e.target.value)}
+                ></input>
+                <select
+                  className="input"
+                  value={salary_type}
+                  onChange={(e) => setSalaryType(e.target.value)}
+                >
+                  <option value={"KZT"} selected={salary === resume.salary}>
+                    KZT
+                  </option>
+                  <option value={"RUB"} selected={salary === resume.salary}>
+                    RUB
+                  </option>
+                  <option value={"USD"} selected={salary === resume.salary}>
+                    USD
+                  </option>
+                  <option value={"EUR"} selected={salary === resume.salary}>
+                    EUR
+                  </option>
+                </select>
+              </div>
+            </fieldset>
           </div>
         </div>
         {/* Work experience */}
@@ -450,6 +510,7 @@ export default function EditResume() {
             size="fieldset-lg"
             onSelect={onSelectSkills}
             skills={allSkills}
+            selected={skills.split(",").map((skill) => ({ name: skill }))}
             placeholder="Навык, например, JavaScript"
           />
         </div>
@@ -539,7 +600,11 @@ export default function EditResume() {
               value={main_language}
             >
               {languages.map((option) => (
-                <option key={option} value={option}>
+                <option
+                  key={option}
+                  value={option}
+                  selected={main_language === option}
+                >
                   {option}
                 </option>
               ))}
