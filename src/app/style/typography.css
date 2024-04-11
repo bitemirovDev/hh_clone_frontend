@@ -15,3 +15,9 @@ h5 {
   font-size: 14px;
   margin-bottom: 20px;
 }
+
+.error {
+  color: #f40000;
+  margin-top: 10px;
+  margin-bottom: 0px !important;
+}

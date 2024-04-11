@@ -7,6 +7,7 @@ let initialState = {
   isAuth: false,
   currentUser: null,
   tokenExp: 0,
+  error: null,
 };
 
 if (typeof window !== "undefined") {
@@ -59,6 +60,9 @@ export const authSlice = createSlice({
       state.exp = 0;
       localStorage.removeItem("token");
     },
+    setError: (state, action) => {
+      state.error = action.payload;
+    },
   },
 });
 
@@ -79,7 +83,28 @@ export const verifyCode = (email, code) => (dispatch) => {
     });
 };
 
+export const signUpEmployer = (data, router) => (dispatch) => {
+  const fd = new FormData();
+  fd.append("full_name", data.full_name);
+  fd.append("email", data.email);
+  fd.append("password", data.password);
+  fd.append("password2", data.password2);
+  fd.append("company_name", data.company_name);
+  fd.append("company_description", data.company_description);
+  fd.append("company_address", data.company_address);
+  fd.append("company_logo", data.company_logo);
+
+  axios
+    .post(`${END_POINT}/api/auth/signUp`, fd)
+    .then((res) => {
+      router.push("/employer/signin");
+    })
+    .catch((e) => {
+      dispatch(setError(e.response.data));
+    });
+};
+
 // Action creators are generated for each case reducer function
-export const { authorize, logout } = authSlice.actions;
+export const { authorize, logout, setError } = authSlice.actions;
 
 export default authSlice.reducer;

@@ -1,0 +1,20 @@
+.bg {
+  background: url("../../images/register_background.jpg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+  min-width: 100vw;
+}
+
+.auth_header {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.auth_header p,
+.auth_header a {
+  color: #fff;
+  max-width: 300px;
+}

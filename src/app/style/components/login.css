@@ -15,6 +15,7 @@
 .login_page .card {
   max-width: 480px;
   width: 100%;
+  background-color: #fff;
 }
 
 .login_page .form {
