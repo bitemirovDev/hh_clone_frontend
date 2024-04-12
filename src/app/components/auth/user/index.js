@@ -93,7 +93,7 @@ export default function UserLogin() {
           <h1>Поиск сотрудников</h1>
           <p>Размещение вакансий и доступ к базе резюме</p>
           <button className="button button-primary-bordered" type="button">
-            Я ищу сотрудников
+            <a href="/employer/signin">Я ищу сотрудников</a>
           </button>
         </div>
       )}

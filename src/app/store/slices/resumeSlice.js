@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { END_POINT } from "@/config/end-point";
-import { actionAsyncStorage } from "next/dist/client/components/action-async-storage.external";
 
 export const resumeSlice = createSlice({
   name: "resume",

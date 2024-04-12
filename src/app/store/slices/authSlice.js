@@ -39,11 +39,14 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     authorize: (state, action) => {
+      console.log(action.payload.token);
       localStorage.setItem("token", action.payload.token);
       axios.defaults.headers.common[
         "Authorization"
       ] = `Bearer ${action.payload.token}`;
+
       const decoded = jwtDecode(action.payload.token);
+
       state.currentUser = {
         id: decoded.id,
         email: decoded.email,
@@ -98,6 +101,18 @@ export const signUpEmployer = (data, router) => (dispatch) => {
     .post(`${END_POINT}/api/auth/signUp`, fd)
     .then((res) => {
       router.push("/employer/signin");
+    })
+    .catch((e) => {
+      dispatch(setError(e.response.data));
+    });
+};
+
+export const logInEmployer = (data, router) => (dispatch) => {
+  axios
+    .post(`${END_POINT}/api/auth/logIn`, data)
+    .then((res) => {
+      dispatch(authorize(res.data));
+      router.push("/vacancy");
     })
     .catch((e) => {
       dispatch(setError(e.response.data));

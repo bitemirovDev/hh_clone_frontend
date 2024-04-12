@@ -1,11 +1,10 @@
 "use client";
 
-import Image from "next/image";
-import Logo from "@/app/images/hh_kz.svg";
 import { useEffect, useState } from "react";
-import { setError } from "@/app/store/slices/authSlice";
+import { setError, logInEmployer } from "@/app/store/slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
 
 const Header = dynamic(() => import("@/app/components/header/index"), {
   ssr: false,
@@ -17,6 +16,7 @@ export default function EmployerSignIn() {
 
   const dispatch = useDispatch();
   const error = useSelector((state) => state.auth.error);
+  const router = useRouter();
 
   useEffect(() => {
     return () => {
@@ -24,7 +24,9 @@ export default function EmployerSignIn() {
     };
   }, []);
 
-  const handleSignIn = () => {};
+  const handleSignIn = () => {
+    dispatch(logInEmployer({ email, password }, router));
+  };
 
   return (
     <main>
@@ -43,6 +45,7 @@ export default function EmployerSignIn() {
                 ></input>
                 <input
                   className="input"
+                  type="password"
                   placeholder="Пароль"
                   onChange={(e) => setPassword(e.target.value)}
                   value={password}
