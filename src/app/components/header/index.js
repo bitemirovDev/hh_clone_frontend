@@ -26,12 +26,11 @@ export default function Header() {
               <Image src={Logo} alt="hh_logo" />
             </Link>
             {currentUser && currentUser.role && currentUser.role.id === 2 && (
-              <Link href="/vacany">Мои вакансии</Link>
+              <Link href="/vacancy">Мои вакансии</Link>
             )}
             {currentUser && currentUser.role && currentUser.role.id === 1 && (
               <Link href="/resumes">Мои резюме</Link>
             )}
-            {/* <Link href="/resumes">Мои резюме</Link> */}
             <a>Помощь</a>
           </div>
           <div>

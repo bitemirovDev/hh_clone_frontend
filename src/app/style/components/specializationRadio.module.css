@@ -1,0 +1,16 @@
+.specialization_radio {
+  padding: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.specialization_radio label {
+  margin-left: 10px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.radio {
+  width: 16px;
+  height: 16px;
+}

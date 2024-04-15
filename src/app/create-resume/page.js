@@ -6,7 +6,6 @@ import AutoCompleteSelectCity from "@/app/components/autoCompleteSelectCity";
 import PhoneNumberFieldset from "@/app/components/phoneNumberFieldset";
 import AutoCompleteSelectCountries from "@/app/components/autoCompleteSelectCountries";
 import DateSelect from "@/app/components/dateSelect";
-import Radio from "@/app/components/radio";
 import InputWithSelect from "@/app/components/inputWithSelect";
 import ModalAddWorkExp from "@/app/components/modalAddWorkExp";
 import WorkingHistoryCard from "@/app/components/workingHistoryCard";
