@@ -11,10 +11,12 @@ import { useState, useEffect } from "react";
 export default function AutoCompleteSelectSkills({
   label,
   size,
+  type,
   skills,
   selected,
   onSelect,
-  ...props
+  classForTagsContainer,
+  classForDropdown,
 }) {
   const [values, setValues] = useState([]);
   const [filteredSkills, setFilteredSkills] = useState([]);
@@ -91,7 +93,7 @@ export default function AutoCompleteSelectSkills({
   return (
     <div className={"auto_complete_select " + size}>
       {values.length > 0 && (
-        <div className="tags-container">
+        <div className={`tags-container ${classForTagsContainer}`}>
           {values.map((skill) => (
             <div key={skill.id} className={"tag"}>
               <a>{skill.name}</a>
@@ -104,7 +106,7 @@ export default function AutoCompleteSelectSkills({
       )}
 
       {filteredSkills.length > 0 && (
-        <div className="dropdown">
+        <div className={`dropdown ${classForDropdown}`}>
           <h4>Рекомендуемые навыки</h4>
           {filteredSkills.map((skill) => (
             <a key={skill.id} onClick={() => onClick(skill)}>
@@ -114,7 +116,7 @@ export default function AutoCompleteSelectSkills({
         </div>
       )}
 
-      <Fieldset label={label} size={size} {...props} onChange={onChange} />
+      <Fieldset label={label} size={size} type={type} onChange={onChange} />
     </div>
   );
 }

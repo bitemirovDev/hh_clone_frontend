@@ -17,6 +17,7 @@ export default function SpecializationRadio({
         name="specialization"
         id={`spec-${specialization.id}`}
         value={specialization.id}
+        data-name={specialization.name}
         checked={value == specialization.id ? true : false}
       ></input>
 

@@ -7,9 +7,13 @@ export default function SelectSpecializationModal({
   closeModal,
   onChange,
   value,
+  setName,
 }) {
   const [search, setSearch] = useState("");
-  const [selectedSpecialization, setSelectedSpecialization] = useState(value);
+  const [selectedSpecialization, setSelectedSpecialization] = useState({
+    id: value,
+    name: "",
+  });
   const [filteredSpecializationsTypes, setFilteredSpecializationsTypes] =
     useState([]);
 
@@ -33,11 +37,14 @@ export default function SelectSpecializationModal({
   };
 
   const onChangeSelectedSpecialization = (e) => {
-    setSelectedSpecialization(e.target.value);
+    setSelectedSpecialization({
+      id: e.target.value,
+      name: e.target.dataset.name,
+    });
   };
 
   const handleSaveButton = () => {
-    onChange(selectedSpecialization);
+    onChange(selectedSpecialization.id, selectedSpecialization.name);
     closeModal();
   };
 
@@ -71,7 +78,7 @@ export default function SelectSpecializationModal({
               onChange={onChangeSelectedSpecialization}
               key={specType.id}
               specType={specType}
-              value={selectedSpecialization}
+              value={selectedSpecialization.id}
             />
           ))}
         </div>

@@ -1,7 +1,8 @@
 export default function Fieldset({ label, size, ...props }) {
   return (
     <fieldset className={"fieldset " + size}>
-      <label>{label}</label>
+      {label && <label>{label}</label>}
+
       {props.type === "text" && (
         <input className="input" onChange={props.onChange} {...props}></input>
       )}

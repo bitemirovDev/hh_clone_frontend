@@ -60,7 +60,8 @@ export default function SelectEmploymentTypes({
 
   return (
     <fieldset className={"fieldset " + size}>
-      <label style={{ alignItems: "start" }}>{label}</label>
+      {label && <label style={{ alignItems: "start" }}>{label}</label>}
+
       <EmploymentTypesDiv>
         {allEmploymentTypes.map((type) => (
           <div key={type.id} className="checkbox">

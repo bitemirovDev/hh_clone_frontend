@@ -1,7 +1,7 @@
 import Link from "next/link";
 import styled from "styled-components";
 
-import { deleteMyResume } from "@/app/store/slices/resumeSlice";
+import { deleteVacancy } from "@/app/store/slices/vacancySlice";
 import { useDispatch } from "react-redux";
 
 const StyledDeleteButton = styled.span`
@@ -40,12 +40,12 @@ export default function MyVacancyCard({ item }) {
       </Link>
       <p>Дата создания: {formatDate(item.createdAt)} </p>
 
-      {/* <StyledDeleteButton
+      <StyledDeleteButton
         className="delete_resume"
-        onClick={() => dispatch(deleteMyResume(item.id))}
+        onClick={() => dispatch(deleteVacancy(item.id))}
       >
         Удалить вакансию
-      </StyledDeleteButton> */}
+      </StyledDeleteButton>
     </div>
   );
 }
