@@ -1,0 +1,50 @@
+.salary {
+  font-size: 21px;
+  margin-bottom: 20px;
+}
+
+.position {
+  margin: 10px 0;
+}
+
+.company_info {
+  min-width: 300px;
+}
+.company_info h4 {
+  font-size: 20px;
+  color: #49a3f1;
+  margin: 10px 0;
+}
+
+.company_info p {
+  font-size: 14px;
+  color: #49a3f1;
+}
+
+.mb_30 {
+  margin-bottom: 30px;
+}
+
+.mb_50 {
+  margin-bottom: 50px;
+}
+
+.ml_20 {
+  margin-left: 20px;
+}
+
+.mh_mc {
+  max-height: max-content;
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.tag {
+  padding: 5px 10px;
+  border-radius: 4px;
+  background: #e1e1e1;
+}

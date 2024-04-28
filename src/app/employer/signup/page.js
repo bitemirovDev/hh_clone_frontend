@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { signUpEmployer, setError } from "@/app/store/slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function EmployerSignUp() {
   const [step, setStep] = useState(1);

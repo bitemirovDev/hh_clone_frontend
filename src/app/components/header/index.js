@@ -31,21 +31,28 @@ export default function Header() {
             {currentUser && currentUser.role && currentUser.role.id === 1 && (
               <Link href="/resumes">Мои резюме</Link>
             )}
+            {currentUser && currentUser.role && currentUser.role.id === 1 && (
+              <Link href="/applies">Отклики и приглашения</Link>
+            )}
             <a>Помощь</a>
           </div>
           <div>
-            <button className="header_search">
+            <Link className="header_search" href="/search/vacancy/advanced">
               <Image src={SearchIcon} alt="magnifying_glass" />
               Поиск
-            </button>
-            <button className="button_green header_button">
-              {currentUser && currentUser.role && currentUser.role.id === 2 && (
+            </Link>
+
+            {currentUser && currentUser.role && currentUser.role.id === 2 && (
+              <button className="button_green header_button">
                 <Link href="/create-vacancy">Создать вакансию</Link>
-              )}
-              {currentUser && currentUser.role && currentUser.role.id === 1 && (
+              </button>
+            )}
+
+            {currentUser && currentUser.role && currentUser.role.id !== 2 && (
+              <button className="button_green header_button">
                 <Link href="/create-resume">Создать резюме</Link>
-              )}
-            </button>
+              </button>
+            )}
 
             <button className="header_button">
               {isAuth ? (

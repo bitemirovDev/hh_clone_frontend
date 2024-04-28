@@ -81,7 +81,7 @@ export default function AutoCompleteSelectSkills({
   }, [values]);
 
   useEffect(() => {
-    if (JSON.stringify(values) !== JSON.stringify(selected)) {
+    if (selected && JSON.stringify(values) !== JSON.stringify(selected)) {
       selected.map((sld) => {
         if (sld.name !== "") {
           setValues(selected);

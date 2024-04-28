@@ -5,6 +5,7 @@ import { setError, logInEmployer } from "@/app/store/slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 const Header = dynamic(() => import("@/app/components/header/index"), {
   ssr: false,
@@ -58,6 +59,14 @@ export default function EmployerSignIn() {
               >
                 Войти
               </button>
+
+              <Link
+                href="/employer/signup"
+                style={{ textAlign: "center" }}
+                className="link"
+              >
+                Нет аккаунта? Зарегистрироваться
+              </Link>
             </form>
             {error &&
               Object.keys(error).map((key) => (

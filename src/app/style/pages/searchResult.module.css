@@ -1,0 +1,82 @@
+.create_vacancy {
+  margin-bottom: 200px;
+}
+
+.fieldset {
+  padding: 0;
+  margin: 0 0 30px 0;
+  border: none;
+  background: transparent;
+  box-sizing: border-box;
+}
+
+.fieldset_label {
+  display: block;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.modal_btn {
+  font-size: 14px;
+  color: blue;
+  opacity: 1;
+  transition: 0.3s;
+  cursor: pointer;
+  display: inline;
+}
+
+.modal_btn:hover {
+  opacity: 0.8;
+}
+
+.input_group {
+  width: 100%;
+  display: flex;
+}
+
+.radio_group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.radio_group input {
+  width: 15px;
+  height: 15px;
+  margin-right: 10px;
+}
+
+.radio_group label {
+  font-size: 14px;
+}
+
+.radio_group div {
+  display: flex;
+  align-items: center;
+}
+
+.cvtc {
+  margin-left: 0;
+}
+
+.cvd {
+  max-width: 100%;
+}
+
+.checkbox {
+  display: flex;
+  gap: 5px;
+}
+
+.checkbox input {
+  width: 15px;
+  height: 15px;
+  margin-right: 10px;
+}
+
+.checkbox_container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}

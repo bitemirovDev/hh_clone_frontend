@@ -42,8 +42,36 @@
   margin-bottom: 40px;
 }
 
+.mt10 {
+  margin-top: 10px;
+}
+
+.mt40 {
+  margin-top: 40px;
+}
+
 .gap10 {
   gap: 10px;
+}
+
+.gap20 {
+  gap: 20px;
+}
+
+.gap50 {
+  gap: 50px;
+}
+
+.flex-shrink {
+  flex: 1;
+}
+
+.h_mc {
+  height: max-content;
+}
+
+.wd-100 {
+  width: 100%;
 }
 
 /* padding */

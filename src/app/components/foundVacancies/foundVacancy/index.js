@@ -1,8 +1,7 @@
 import Link from "next/link";
 import styled from "styled-components";
 
-import { deleteVacancy } from "@/app/store/slices/vacancySlice";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 
 const StyledDeleteButton = styled.span`
   position: absolute;
@@ -22,7 +21,7 @@ const StyledDeleteButton = styled.span`
   }
 `;
 
-export default function MyVacancyCard({ item }) {
+export default function FoundVacancy({ item }) {
   const formatDate = (dateString) => {
     const date = new Date(dateString);
     const day = date.getDate().toString().padStart(2, "0");
@@ -32,8 +31,6 @@ export default function MyVacancyCard({ item }) {
   };
 
   const currentUser = useSelector((state) => state.auth.currentUser);
-
-  const dispatch = useDispatch();
 
   return (
     <div className="resume card mtb15 gap10">
@@ -45,17 +42,15 @@ export default function MyVacancyCard({ item }) {
         {item.salary_from} - {item.salary_to} {item.salary_type}
       </p>
 
-      {currentUser && currentUser.id === item.user_id && (
-        <p>Дата создания: {formatDate(item.createdAt)} </p>
-      )}
+      <p>{item.address}</p>
 
-      {currentUser && currentUser.id === item.user_id && (
-        <StyledDeleteButton
-          className="delete_resume"
-          onClick={() => dispatch(deleteVacancy(item.id))}
+      {currentUser && currentUser.role.id === 1 && (
+        <button
+          className="button button-primary"
+          style={{ width: "max-content" }}
         >
-          Удалить вакансию
-        </StyledDeleteButton>
+          <Link href={`/vacancy/${item.id}`}>Откликнуться</Link>
+        </button>
       )}
     </div>
   );

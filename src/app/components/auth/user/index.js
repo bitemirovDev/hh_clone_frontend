@@ -16,6 +16,7 @@ export default function UserLogin() {
   const [code, setCode] = useState("");
   const router = useRouter();
   const isAuth = useSelector((state) => state.auth.isAuth);
+  const currentUser = useSelector((state) => state.auth.currentUser);
   const dispatch = useDispatch();
 
   const verifyEmail = () => {
@@ -49,7 +50,9 @@ export default function UserLogin() {
   }, [step]);
 
   useEffect(() => {
-    if (isAuth) {
+    if (isAuth && currentUser.role.id === 2) {
+      router.push("/vacancy");
+    } else if (isAuth && !currentUser.role.id === 2) {
       router.push("/resumes");
     }
   }, [isAuth]);
@@ -61,6 +64,11 @@ export default function UserLogin() {
       .toString()
       .padStart(2, "0")}`;
   }
+
+  const handleLogin = () => {
+    dispatch(authorize());
+    router.push("/resumes");
+  };
 
   return (
     <section className="login_page">
@@ -137,7 +145,7 @@ export default function UserLogin() {
         </div>
       )}
 
-      {step === 3 && (
+      {!currentUser && step === 3 && (
         <div className="card">
           <h1>Давайте познакомимся</h1>
           <form className="form">
@@ -148,7 +156,7 @@ export default function UserLogin() {
             <div className="buttons-group">
               <button
                 className="button button-primary"
-                onClick={() => dispatch(authorize())}
+                onClick={handleLogin}
                 type="button"
               >
                 Подтвердить

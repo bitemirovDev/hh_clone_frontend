@@ -39,23 +39,24 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     authorize: (state, action) => {
-      console.log(action.payload.token);
-      localStorage.setItem("token", action.payload.token);
-      axios.defaults.headers.common[
-        "Authorization"
-      ] = `Bearer ${action.payload.token}`;
+      if (action.payload && action.payload.token) {
+        localStorage.setItem("token", action.payload.token);
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${action.payload.token}`;
 
-      const decoded = jwtDecode(action.payload.token);
+        const decoded = jwtDecode(action.payload.token);
 
-      state.currentUser = {
-        id: decoded.id,
-        email: decoded.email,
-        full_name: decoded.full_name,
-        phone: decoded.phone,
-        role: decoded.role,
-      };
-      state.isAuth = true;
-      state.tokenExp = decoded.exp;
+        state.currentUser = {
+          id: decoded.id,
+          email: decoded.email,
+          full_name: decoded.full_name,
+          phone: decoded.phone,
+          role: decoded.role,
+        };
+        state.isAuth = true;
+        state.tokenExp = decoded.exp;
+      }
     },
     logout: (state) => {
       state.isAuth = false;
@@ -75,7 +76,7 @@ export const sendVerificationEmail = (email) => (dispatch) => {
   });
 };
 
-export const verifyCode = (email, code) => (dispatch) => {
+export const verifyCode = (email, code, router) => (dispatch) => {
   axios
     .post(`${END_POINT}/api/auth/verifycode`, {
       email,
