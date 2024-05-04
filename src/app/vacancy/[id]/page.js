@@ -9,7 +9,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "next/navigation";
 import { getVacancyById } from "@/app/store/slices/vacancySlice";
 import { getMyResumes } from "@/app/store/slices/resumeSlice";
-import { createApply, getEmployeeAplies } from "@/app/store/slices/applySlice";
+import {
+  createApply,
+  getEmployeeAplies,
+  getAppliesByVacancy,
+} from "@/app/store/slices/applySlice";
 
 const Header = dynamic(() => import("@/app/components/header/index"), {
   ssr: false,
@@ -26,8 +30,6 @@ export default function VacancyPage() {
 
   const didMount = () => {
     dispatch(getVacancyById(id));
-    dispatch(getMyResumes());
-    dispatch(getEmployeeAplies());
   };
 
   useEffect(() => {
@@ -35,6 +37,15 @@ export default function VacancyPage() {
       setResumeId(resumes[0].id);
     }
   }, [resumes]);
+
+  useEffect(() => {
+    if (currentUser && currentUser.role.name === "employee") {
+      dispatch(getMyResumes());
+      dispatch(getEmployeeAplies());
+    } else if (currentUser) {
+      dispatch(getAppliesByVacancy(id));
+    }
+  }, [currentUser]);
 
   useEffect(didMount, []);
 
@@ -115,6 +126,10 @@ export default function VacancyPage() {
                 )}
               </div>
             )}
+
+            <Link href={`/vacancy/${id}/applies`} className="link mt10">
+              Соискатели: {applies.length}
+            </Link>
           </div>
 
           <div className="card h_mc">

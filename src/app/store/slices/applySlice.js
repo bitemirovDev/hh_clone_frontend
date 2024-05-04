@@ -20,11 +20,21 @@ export const applySlice = createSlice({
       applies = applies.filter((item) => item.id !== action.payload);
       state.applies = applies;
     },
+    setApplyStatus: (state, action) => {
+      let applies = [...state.applies];
+      applies = applies.filter((item) => {
+        if (item.id === action.payload.apply_id) {
+          item.status = action.payload.status;
+        }
+        return item;
+      });
+      state.applies = applies;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { appendApply, setApplies, handleDeletedApply } =
+export const { appendApply, setApplies, handleDeletedApply, setApplyStatus } =
   applySlice.actions;
 
 export const createApply = (data) => (dispatch) => {
@@ -49,6 +59,17 @@ export const getEmployeeAplies = (data) => (dispatch) => {
     });
 };
 
+export const getAppliesByVacancy = (id) => (dispatch) => {
+  axios
+    .get(`${END_POINT}/api/apply/vacancy/${id}`)
+    .then((res) => {
+      dispatch(setApplies(res.data));
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};
+
 export const deleteApply = (id) => (dispatch) => {
   try {
     const confirmed = window.confirm(
@@ -62,6 +83,28 @@ export const deleteApply = (id) => (dispatch) => {
   } catch (error) {
     console.log(error);
   }
+};
+
+export const acceptApply = (apply_id) => (dispatch) => {
+  axios
+    .put(`${END_POINT}/api/apply/accept/employee`, { apply_id })
+    .then((res) => {
+      dispatch(setApplyStatus({ apply_id, status: "INVITATION" }));
+    })
+    .catch((e) => {
+      console.log(e);
+    });
+};
+
+export const declineApply = (apply_id) => (dispatch) => {
+  axios
+    .put(`${END_POINT}/api/apply/accept/employee`, { apply_id })
+    .then((res) => {
+      dispatch(setApplyStatus({ apply_id, status: "DECLINED" }));
+    })
+    .catch((e) => {
+      console.log(e);
+    });
 };
 
 export default applySlice.reducer;

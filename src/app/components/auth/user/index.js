@@ -52,7 +52,7 @@ export default function UserLogin() {
   useEffect(() => {
     if (isAuth && currentUser.role.id === 2) {
       router.push("/vacancy");
-    } else if (isAuth && !currentUser.role.id === 2) {
+    } else if (isAuth && currentUser.role.id === 1) {
       router.push("/resumes");
     }
   }, [isAuth]);
